@@ -3,10 +3,7 @@
 namespace app\Services;
 
 use app\Http\Controllers\Auth\AuthController;
-<<<<<<< HEAD
-=======
 use app\Http\Controllers\Admin\OptionController;
->>>>>>> 1a38da493e77fba758dce26ac46be6be64f41ae6
 use storage\Session;
 use app\Helpers\Helper;
 
