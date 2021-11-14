@@ -14,7 +14,7 @@ class Request extends Validation
         if ($position === false) {
             return $path; // nếu không sẽ chạy luôn path
         }
-        return substr($path, 0, $position); // nếu có thì trích xuất path trên url chứa query string mà chạy nó
+        return substr($path, 0, $position); // /home?abc=1 // nếu có thì trích xuất path trên url chứa query string mà chạy nó
     }
 
     public function method() : string

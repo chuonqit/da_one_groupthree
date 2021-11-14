@@ -85,4 +85,49 @@ class ProductController
         session_set('message', 'Xoá thành công');
         redirect('admin.product');
     }
+
+
+    public function configuration(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        $config = $this->products->getProductConfiguration($product_id);
+        view('admin.products.configuration', [
+            'product_id' => $product_id,
+            'config' => $config
+        ]);
+    }
+
+    public function variant(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        $product_variants = $this->products->getListVariantByProductID($product_id);
+        view('admin.products.variants.list', [
+            'product_id' => $product_id,
+            'variants' => $product_variants
+        ]);
+    }
+
+    public function variantCreate(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        view('admin.products.variants.create', ['product_id' => $product_id]);
+    }
+
+    public function variantUpdate(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        $variant_id = $request->input('variant_id');
+        $variants = $this->products->getListVariantByID($variant_id);
+        view('admin.products.variants.update', [
+            'product_id' => $product_id,
+            'variants' => $variants
+        ]);
+    }
+
+    public function variantDelete(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        session_set('message', 'Xoá thành công');
+        redirect('admin.product.variant?product_id='.$product_id);
+    }
 }

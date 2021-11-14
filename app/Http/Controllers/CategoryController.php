@@ -3,6 +3,7 @@
 namespace app\Http\Controllers;
 
 use app\Categories;
+use app\Services\Request;
 
 class CategoryController
 {
@@ -13,13 +14,24 @@ class CategoryController
         $this->categories = new Categories();
     }
 
-    public function index($slug)
+    public function index(Request $request)
     {
-        $category = $this->categories->getCategoryBySlug($slug);
-        if (empty($category)) {
-            error_page();
-        }
-        
-        view('category', ['title' => $category['cate_name']]);
+        $products = $this->categories->getAllProduct($request);
+        view('category', [
+            'cate_title' => "Danh mục",
+            'products' => $products
+        ]);
+    }
+
+
+    public function details($slug, Request $request)
+    {
+        $products = $this->categories->getProductCategoryBySlug($slug, $request);
+        $title = $this->categories->getCategoryTitle($slug);
+
+        view('category', [
+            'cate_title' => $title,
+            'products' => $products
+        ]);
     }
 }

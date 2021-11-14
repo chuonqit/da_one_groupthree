@@ -9,7 +9,11 @@
     <ul>
     @foreach($products as $item)
         <li>
-            <a href="{{ url($item['cate_slug'].'/'.$item['brand_slug'].'-'.$item['slug']) }}">{{ $item['title'] }}</a>
+            <a href="{{ url($item['cate_parent_slug'].'/'.$item['product_full_slug']) }}">
+                {{ $item['product_full_name'] }} 
+                @if($item['is_variant'] == 1) - [{{ $item['ram'].'-'.$item['storage'] }}] @endif 
+                - {{ priceVND($item['product_price']) }} 
+            </a>
         </li>
     @endforeach
     </ul>

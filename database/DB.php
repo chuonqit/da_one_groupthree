@@ -13,6 +13,7 @@ class DB
     private array $columns;
     private array $join;
     private array $where;
+    private array $having;
     private array $orderBy;
     private array $groupBy;
     private int $limit;
@@ -68,6 +69,12 @@ class DB
     public function orWhere($column, $operator, $value)
     {
         return $this->where($column, $operator, $value, "OR");
+    }
+
+    public function having($column, $operator, $value, $boolean = "AND")
+    {
+        $this->having[] = [$column, $operator, $value, $boolean];
+        return $this;
     }
 
     public function groupBy($columns)
@@ -155,6 +162,22 @@ class DB
             }
         }
 
+<<<<<<< HEAD
+=======
+        if (isset($this->having) && is_array($this->having))
+        {
+            $SQL .= " HAVING";
+            foreach ($this->having as $key => $item)
+            {
+                if ($key > 0)
+                {
+                    $SQL .= " $item[3]";
+                }
+                $SQL .= " $item[0] $item[1] " . $this->stringOrNumber($item[2]);
+            }
+        }
+
+>>>>>>> 1a38da493e77fba758dce26ac46be6be64f41ae6
         if (isset($this->groupBy) && is_array($this->groupBy))
         {
             $SQL .= " GROUP BY " . implode(', ', $this->groupBy);
