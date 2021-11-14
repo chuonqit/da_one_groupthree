@@ -162,8 +162,6 @@ class DB
             }
         }
 
-<<<<<<< HEAD
-=======
         if (isset($this->having) && is_array($this->having))
         {
             $SQL .= " HAVING";
@@ -177,7 +175,6 @@ class DB
             }
         }
 
->>>>>>> 1a38da493e77fba758dce26ac46be6be64f41ae6
         if (isset($this->groupBy) && is_array($this->groupBy))
         {
             $SQL .= " GROUP BY " . implode(', ', $this->groupBy);
