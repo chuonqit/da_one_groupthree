@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2021 at 08:04 PM
+-- Generation Time: Nov 14, 2021 at 07:08 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.25
 
@@ -78,18 +78,20 @@ CREATE TABLE `categories` (
   `parent_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `menu_url` varchar(255) DEFAULT NULL
+  `menu_url` varchar(255) DEFAULT NULL,
+  `category_index` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`category_id`, `category_name`, `category_slug`, `category_image`, `is_menu`, `is_parent`, `parent_id`, `created_at`, `updated_at`, `menu_url`) VALUES
-(1, 'Điện thoại', 'dien-thoai', '', 1, 1, NULL, '2021-11-12 01:54:57', '2021-11-12 01:54:57', NULL),
-(2, 'Iphone', 'iphone', '', 0, 0, 1, '2021-11-12 01:55:48', '2021-11-12 01:55:48', NULL),
-(3, 'Phụ kiện', 'phu-kien', '', 1, 1, NULL, '2021-11-12 03:18:59', '2021-11-12 03:18:59', NULL),
-(4, 'Tai nghe', 'tai-nghe', '', 0, 0, 3, '2021-11-12 03:19:17', '2021-11-12 03:19:17', NULL);
+INSERT INTO `categories` (`category_id`, `category_name`, `category_slug`, `category_image`, `is_menu`, `is_parent`, `parent_id`, `created_at`, `updated_at`, `menu_url`, `category_index`) VALUES
+(1, 'Điện thoại', 'dien-thoai', '', 1, 1, NULL, '2021-11-12 01:54:57', '2021-11-12 01:54:57', NULL, 2),
+(2, 'Iphone', 'iphone', '', 0, 0, 1, '2021-11-12 01:55:48', '2021-11-12 01:55:48', NULL, NULL),
+(3, 'Phụ kiện', 'phu-kien', '', 1, 1, NULL, '2021-11-12 03:18:59', '2021-11-12 03:18:59', NULL, 3),
+(4, 'Tai nghe', 'tai-nghe', '', 0, 0, 3, '2021-11-12 03:19:17', '2021-11-12 03:19:17', NULL, NULL),
+(5, 'Trang chủ', 'trang-chu', '', 1, 1, NULL, '2021-11-14 21:40:31', '2021-11-14 21:40:31', 'http://localhost', 1);
 
 -- --------------------------------------------------------
 
@@ -247,6 +249,13 @@ CREATE TABLE `product_configuration` (
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `product_configuration`
+--
+
+INSERT INTO `product_configuration` (`display`, `camera_front`, `camera_back`, `ram`, `storage`, `cpu`, `gpu`, `battery`, `sim`, `system`, `made_in`, `product_id`) VALUES
+('FHD', NULL, NULL, '8GB', '128GB', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -268,8 +277,9 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`product_variant_id`, `product_variant_name`, `product_variant_slug`, `product_variant_price`, `product_variant_discount`, `product_variant_image`, `product_id`) VALUES
-(1, 'Gold', 'gold', 29000000, 0, '', 1),
-(2, 'Hồng', 'hong', 27000000, 0, '', 1);
+(11, 'Gold', 'gold', 28000000, 0, '', 1),
+(12, 'Blue', 'blue', 27500000, 0, '', 1),
+(13, 'Pink', 'pink', 27500000, 0, '', 1);
 
 -- --------------------------------------------------------
 
@@ -548,7 +558,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `comments`
@@ -590,7 +600,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `product_variant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `product_variant_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ratings`
