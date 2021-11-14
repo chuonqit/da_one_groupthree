@@ -19,4 +19,4 @@ define('MAIL_SMTP_AUTH', true);
 define('MAIL_SMTP_SECURE', 'tls');
 define('MAIL_PORT', '587');
 define('MAIL_USERNAME', 'example@gmail.com');
-define('MAIL_PASSWORD', '');
+define('MAIL_PASSWORD', 'example');
