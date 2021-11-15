@@ -42,17 +42,21 @@
         </p>
         <p>
             <label for="category_id">category_id</label>
-            <select name="category_id" id="category_id" value="{{ $product['category_id'] }}">
-                <option>1</option>
-                <option>2</option>
+            <select name="category_id" id="category_id">
+                <option></option>
+                @foreach($categories as $item)
+                <option value="{{ $item['category_id'] }}" {{ $item['category_id'] == $product['category_id'] ? 'selected' : '' }}>{{ $item['category_name'] }}</option>
+                @endforeach
             </select>
             <span class="errors">{{ $errors['category_id'][0] ?? '' }}</span>
         </p>
         <p>
             <label for="brand_id">brand_id</label>
-            <select name="brand_id" id="brand_id" value="{{ $product['brand_id'] }}">
-                <option>1</option>
-                <option>2</option>
+            <select name="brand_id" id="brand_id" value="{{ old('brand_id') }}">
+                <option></option>
+                @foreach($brands as $item)
+                <option value="{{ $item['brand_id'] }}" {{ $item['brand_id'] == $product['brand_id'] ? 'selected' : '' }}>{{ $item['brand_name'] }}</option>
+                @endforeach
             </select>
             <span class="errors">{{ $errors['brand_id'][0] ?? '' }}</span>
         </p>

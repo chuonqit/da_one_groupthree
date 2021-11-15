@@ -34,7 +34,6 @@
         <p>
             <label for="product_discount">product_discount</label>
             <input type="text" name="product_discount" id="product_discount" value="{{ old('product_discount') }}"/>
-            <span class="errors">{{ $errors['product_discount'][0] ?? '' }}</span>
         </p>
         <p>
             <label for="product_quantity">product_quantity</label>
@@ -44,25 +43,30 @@
         <p>
             <label for="category_id">category_id</label>
             <select name="category_id" id="category_id">
-                <option>1</option>
-                <option>2</option>
+                <option></option>
+                @foreach($categories as $item)
+                <option value="{{ $item['category_id'] }}" {{ $item['category_id'] == old('category_id') ? 'selected' : '' }}>{{ $item['category_name'] }}</option>
+                @endforeach
             </select>
             <span class="errors">{{ $errors['category_id'][0] ?? '' }}</span>
         </p>
         <p>
             <label for="brand_id">brand_id</label>
-            <select name="brand_id" id="brand_id">
-                <option>1</option>
-                <option>2</option>
+            <select name="brand_id" id="brand_id" value="{{ old('brand_id') }}">
+                <option></option>
+                @foreach($brands as $item)
+                <option value="{{ $item['brand_id'] }}" {{ $item['brand_id'] == old('brand_id') ? 'selected' : '' }}>{{ $item['brand_name'] }}</option>
+                @endforeach
             </select>
             <span class="errors">{{ $errors['brand_id'][0] ?? '' }}</span>
         </p>
         <p>
-            <label for="product_gifts">product_gifts</label>
-            <select name="product_gifts" id="product_gifts" multiple>
-                <option>1</option>
-                <option>2</option>
+            <label>product_gifts</label>
+            <select id="js_product_gifts" multiple>
+                <option value="1">1</option>
+                <option value="2">2</option>
             </select>
+            <input type="hidden" name="product_gifts" id="js_product_gifts_value">
         </p>
         <p>
             <label for="product_hot">product_hot</label>
@@ -81,14 +85,6 @@
             </label>
         </p>
         <p>
-            <label for="product_status">product_status</label>
-            <label for="product_status">
-                <input type="hidden" name="product_status" value="0"/>
-                <input type="checkbox" name="product_status" id="product_status" value="1" {{ old('product_status') == 1 ? 'checked' : '' }}/>
-                product_status
-            </label>
-        </p>
-        <p>
             <label for="product_content">product_content</label>
             <textarea name="product_content" id="product_content" cols="30" rows="10">{{ old('product_content') }}</textarea>
             <span class="errors">{{ $errors['product_content'][0] ?? '' }}</span>
@@ -97,4 +93,21 @@
             <button type="submit">Create</button>
         </p>
     </form>
+<?php endsection() ?>
+
+<?php section('scripts') ?>
+    <script>
+        var select_gifts = document.getElementById("js_product_gifts");
+        select_gifts.addEventListener("change", function(e) {
+            const options = e.target.options;
+            const selectedValues = [];
+
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    selectedValues.push(options[i].value);
+                }
+            }
+            document.getElementById("js_product_gifts_value").value = selectedValues;
+        });
+    </script>
 <?php endsection() ?>
