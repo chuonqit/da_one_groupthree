@@ -39,6 +39,11 @@ class Categories
         return $data->execute()->get();
     }
 
+    function getCategoryChildren() 
+    {
+        return DB::table('categories')->select('*')->where('is_parent', '=', 0)->execute()->get();
+    }
+
     public function getCategoryTitle($slug) 
     {
         if (empty($slug)) {

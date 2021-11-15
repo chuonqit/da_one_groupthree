@@ -19,6 +19,9 @@
     <li>
         @auth 
             Hello, {{ auth['first_name'] }} <a href="<?= route('account.logout') ?>">Logout</a>
+            @if(strtolower(auth['role']) == 'admin' || strtolower(auth['role']) == 'manager')
+            <a href="<?= route('admin') ?>">Admin</a>
+            @endif
         @else
             <a href="<?= route('account.login') ?>">Login</a>
         @endauth

@@ -3,15 +3,22 @@
 namespace app\Http\Controllers\Admin;
 
 use app\Products;
+use app\Categories;
+use app\Brands;
 use app\Services\Request;
+use database\DB;
 
 class ProductController
 {
     protected Products $products;
+    protected Categories $categories;
+    protected Brands $brands;
 
     public function __construct()
     {
         $this->products = new Products();
+        $this->categories = new Categories();
+        $this->brands = new Brands();
     }
 
     public function index()
@@ -24,33 +31,60 @@ class ProductController
     public function create(Request $request)
     {
         $validate = [];
+        $categories = $this->categories->getCategoryChildren();
+        $brands = $this->brands->getAllBrands();
         if ($request->post()) {
-            $title = $request->input('title');
-            $image = $request->file('image');
+            $input = $request->body();
+            $image = $request->file('product_image');
             $validate = $request->validate([
-                'title' => 'required'
+                'product_name' => 'required',
+                'product_slug' => 'required',
+                'product_description' => 'required',
+                'product_price' => 'required',
+                'product_quantity' => 'required',
+                'category_id' => 'required',
+                'brand_id' => 'required',
+                'product_content' => 'required'
             ], [
-                'title.required' => 'Vui long dien title'
+                'product_name.required' => 'Vui lòng điền thông tin',
+                'product_slug.required' => 'Vui lòng điền thông tin',
+                'product_description.required' => 'Vui lòng điền thông tin',
+                'product_price.required' => 'Vui lòng điền thông tin',
+                'product_quantity.required' => 'Vui lòng điền thông tin',
+                'category_id.required' => 'Vui lòng chọn thông tin',
+                'brand_id.required' => 'Vui lòng chọn thông tin',
+                'product_content.required' => 'Vui lòng điền thông tin'
             ]);
 
-            if ($request->hasFile('image') == false) {
-                $validate['image'][] = 'Vui long nhap anh';
+            if ($request->hasFile('product_image') == false) {
+                $validate['product_image'][] = 'Vui chọn ảnh bìa sản phẩm';
             }
 
             if (empty($validate)) {
                 $image_upload = upload_image($image, 'product');
-                session_set('message', 'Thêm thành công '.$image_upload);
+                DB::table('products')->insert([
+                    'product_name' => $input['product_name'],'product_slug' => $input['product_slug'],'product_description' => $input['product_description'],
+                    'product_price' => $input['product_price'],'product_quantity' => $input['product_quantity'],'category_id' => $input['category_id'],
+                    'brand_id' => $input['brand_id'],'product_content' => $input['product_content'],'is_variant' => $input['is_variant'],
+                    'product_gifts' => $input['product_gifts'],'product_hot' => $input['product_hot'],'product_discount' => $input['product_discount'],
+                    'product_image' => $image_upload
+                ])->save();
+                session_set('message', 'Thêm sản phẩm thành công');
                 redirect('admin.product');
             }
         }
         view('admin.products.create', [
-            'errors' => $validate
+            'errors' => $validate,
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 
     public function update($id, Request $request)
     {
         $result = $this->products->getProductByID($id);
+        $categories = $this->categories->getCategoryChildren();
+        $brands = $this->brands->getAllBrands();
         if (empty($result)) {
             error_page();
         }
@@ -76,7 +110,9 @@ class ProductController
         }
         view('admin.products.update', [
             'product' => $result,
-            'errors' => $validate
+            'errors' => $validate,
+            'categories' => $categories,
+            'brands' => $brands
         ]);
     }
 
