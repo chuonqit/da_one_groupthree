@@ -90,21 +90,41 @@ class ProductController
         }
         $validate = [];
         if ($request->post()) {
-            $title = $request->input('title');
-            $image = $request->file('image');
-
+            $input = $request->body();
+            $image = $request->file('product_image');
             $validate = $request->validate([
-                'title' => 'required'
+                'product_name' => 'required',
+                'product_slug' => 'required',
+                'product_description' => 'required',
+                'product_price' => 'required',
+                'product_quantity' => 'required',
+                'category_id' => 'required',
+                'brand_id' => 'required',
+                'product_content' => 'required'
             ], [
-                'title.required' => 'Vui long dien title'
+                'product_name.required' => 'Vui lòng điền thông tin',
+                'product_slug.required' => 'Vui lòng điền thông tin',
+                'product_description.required' => 'Vui lòng điền thông tin',
+                'product_price.required' => 'Vui lòng điền thông tin',
+                'product_quantity.required' => 'Vui lòng điền thông tin',
+                'category_id.required' => 'Vui lòng chọn thông tin',
+                'brand_id.required' => 'Vui lòng chọn thông tin',
+                'product_content.required' => 'Vui lòng điền thông tin'
             ]);
 
             if (empty($validate)) {
-                $image_upload = 'IMG cũ.jpg';
-                if ($request->hasFile('image')) {
+                $image_upload = $result['product_image'];
+                if ($request->hasFile('product_image')) {
                     $image_upload = upload_image($image, 'product');
                 }
-                session_set('message', 'Update thành công '. $image_upload);
+                DB::table('products')->update([
+                    'product_name' => $input['product_name'],'product_slug' => $input['product_slug'],'product_description' => $input['product_description'],
+                    'product_price' => $input['product_price'],'product_quantity' => $input['product_quantity'],'category_id' => $input['category_id'],
+                    'brand_id' => $input['brand_id'],'product_content' => $input['product_content'],'is_variant' => $input['is_variant'],
+                    'product_gifts' => $input['product_gifts'],'product_hot' => $input['product_hot'],'product_discount' => $input['product_discount'],
+                    'product_image' => $image_upload, 'updated_at' => date('Y-m-d H:i:s')
+                ])->where('product_id', '=', $input['product_id'])->save();
+                session_set('message', 'Cập nhật thành công');
                 redirect('admin.product');
             }
         }
@@ -127,6 +147,31 @@ class ProductController
     {
         $product_id = $request->input('product_id');
         $config = $this->products->getProductConfiguration($product_id);
+        if ($request->post()) {
+            $input = $request->body();
+            $product_configuration = DB::table('product_configuration');
+            $data_configuration = [
+                'display' => $input['display'],
+                'camera_front' => $input['camera_front'],
+                'camera_back' => $input['camera_back'],
+                'ram' => $input['ram'],
+                'storage' => $input['storage'],
+                'cpu' => $input['cpu'],
+                'gpu' => $input['gpu'],
+                'battery' => $input['battery'],
+                'sim' => $input['sim'],
+                'system' => $input['system'],
+                'made_in' => $input['made_in']
+            ];
+            if (empty($config)) {
+                $data_configuration['product_id'] = $input['product_id'];
+                $product_configuration->insert($data_configuration)->save();
+            } else {
+                $product_configuration->update($data_configuration)->where('product_id', '=', $input['product_id'])->save();
+            }
+            session_set('message', 'Cập nhật thành công');
+            redirect('admin.product');
+        }
         view('admin.products.configuration', [
             'product_id' => $product_id,
             'config' => $config

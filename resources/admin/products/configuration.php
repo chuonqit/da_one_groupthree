@@ -5,7 +5,7 @@
 <?php section('content') ?>
     <a href="{{ url('admin/product') }}">Danh sach san pham</a>
     <form action="" method="post">
-        <input type="hidden" value="{{ $product_id }}">
+        <input type="hidden" value="{{ $product_id }}" name="product_id">
         <p>
             <label for="display">display</label>
             <input type="text" name="display" id="display" value="{{ $config['display'] ?? old('display') }}"/>
