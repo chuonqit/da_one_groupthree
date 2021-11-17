@@ -8,6 +8,10 @@
     
     <form action="" method="post" enctype="multipart/form-data">
         <input type="hidden" name="product_id" value="{{ $product_id }}">
+        <input type="hidden" name="product_variant_id" value="{{ $variants['product_variant_id'] }}">
+        @if($variants['product_variant_image'])
+        <img src="{{ asset('img/'.$variants['product_variant_image']) }}" alt="" width="100px">
+        @endif
         <p>
             <label for="product_variant_image">product_variant_image</label>
             <input type="file" name="product_variant_image" id="product_variant_image" accept="image/*"/>

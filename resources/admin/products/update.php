@@ -6,7 +6,9 @@
     <a href="{{ url('admin/product') }}">Danh sach san pham</a>
     <form action="" method="post" enctype="multipart/form-data">
         <input type="hidden" value="{{ $product['product_id'] }}" name="product_id">
+        @if($product['product_image'])
         <img src="{{ asset('img/'.$product['product_image']) }}" alt="" width="100px">
+        @endif
         <p>
             <label for="product_image">product_image</label>
             <input type="file" name="product_image" id="product_image" accept="image/*"/>

@@ -138,15 +138,15 @@ class ProductController
 
     public function delete($id)
     {
+        DB::table('products')->delete('product_id', $id);
         session_set('message', 'Xoá thành công');
         redirect('admin.product');
     }
 
 
-    public function configuration(Request $request)
+    public function configuration($pid, Request $request)
     {
-        $product_id = $request->input('product_id');
-        $config = $this->products->getProductConfiguration($product_id);
+        $config = $this->products->getProductConfiguration($pid);
         if ($request->post()) {
             $input = $request->body();
             $product_configuration = DB::table('product_configuration');
@@ -173,42 +173,100 @@ class ProductController
             redirect('admin.product');
         }
         view('admin.products.configuration', [
-            'product_id' => $product_id,
+            'product_id' => $pid,
             'config' => $config
         ]);
     }
 
     public function variant(Request $request)
     {
-        $product_id = $request->input('product_id');
-        $product_variants = $this->products->getListVariantByProductID($product_id);
+        $pid = $request->input('product_id');
+        $product_variants = $this->products->getListVariantByProductID($pid);
         view('admin.products.variants.list', [
-            'product_id' => $product_id,
+            'product_id' => $pid,
             'variants' => $product_variants
         ]);
     }
 
-    public function variantCreate(Request $request)
+    public function variantCreate($pid, Request $request)
     {
-        $product_id = $request->input('product_id');
-        view('admin.products.variants.create', ['product_id' => $product_id]);
-    }
+        $validate = [];
+        if ($request->post()) {
+            $input = $request->body();
+            $image = $request->file('product_variant_image');
+            $validate = $request->validate([
+                'product_variant_name' => 'required',
+                'product_variant_slug' => 'required',
+                'product_variant_price' => 'required',
+            ], [
+                'product_variant_name.required' => 'Vui lòng điền thông tin',
+                'product_variant_slug.required' => 'Vui lòng điền thông tin',
+                'product_variant_price.required' => 'Vui lòng điền thông tin',
+            ]);
 
-    public function variantUpdate(Request $request)
-    {
-        $product_id = $request->input('product_id');
-        $variant_id = $request->input('variant_id');
-        $variants = $this->products->getListVariantByID($variant_id);
-        view('admin.products.variants.update', [
-            'product_id' => $product_id,
-            'variants' => $variants
+            if ($request->hasFile('product_variant_image') == false) {
+                $validate['product_variant_image'][] = 'Vui chọn ảnh bìa sản phẩm';
+            }
+
+            if (empty($validate)) {
+                $image_upload = upload_image($image, 'product');
+                DB::table('product_variants')->insert([
+                    'product_variant_name' => $input['product_variant_name'],'product_variant_slug' => $input['product_variant_slug'], 
+                    'product_variant_price' => $input['product_variant_price'],'product_variant_discount' => $input['product_variant_discount'],
+                    'product_variant_image' => $image_upload, 'product_id' => $input['product_id']
+                ])->save();
+                session_set('message', 'Thêm biến thể thành công');
+                redirect('admin.product.variant?product_id='.$input['product_id']);
+            }
+        }
+        view('admin.products.variants.create', [
+            'product_id' => $pid,
+            'errors' => $validate
         ]);
     }
 
-    public function variantDelete(Request $request)
+    public function variantUpdate($vid, $pid, Request $request)
     {
-        $product_id = $request->input('product_id');
+        $validate = [];
+        $variants = $this->products->getListVariantByID($vid);
+        if ($request->post()) {
+            $input = $request->body();
+            $image = $request->file('product_variant_image');
+            $validate = $request->validate([
+                'product_variant_name' => 'required',
+                'product_variant_slug' => 'required',
+                'product_variant_price' => 'required',
+            ], [
+                'product_variant_name.required' => 'Vui lòng điền thông tin',
+                'product_variant_slug.required' => 'Vui lòng điền thông tin',
+                'product_variant_price.required' => 'Vui lòng điền thông tin',
+            ]);
+
+            if (empty($validate)) {
+                $image_upload = $variants['product_variant_image'];
+                if ($request->hasFile('product_variant_image')) {
+                    $image_upload = upload_image($image, 'product');
+                }
+                DB::table('product_variants')->update([
+                    'product_variant_name' => $input['product_variant_name'],'product_variant_slug' => $input['product_variant_slug'], 
+                    'product_variant_price' => $input['product_variant_price'],'product_variant_discount' => $input['product_variant_discount'],
+                    'product_variant_image' => $image_upload, 'product_id' => $input['product_id']
+                ])->where('product_variant_id', '=', $input['product_variant_id'])->save();
+                session_set('message', 'Cập nhật biến thể thành công');
+                redirect('admin.product.variant?product_id='.$input['product_id']);
+            }
+        }
+        view('admin.products.variants.update', [
+            'product_id' => $pid,
+            'variants' => $variants,
+            'errors' => $validate
+        ]);
+    }
+
+    public function variantDelete($vid, $pid, Request $request)
+    {
+        DB::table('product_variants')->delete('product_variant_id', $vid);
         session_set('message', 'Xoá thành công');
-        redirect('admin.product.variant?product_id='.$product_id);
+        redirect('admin.product.variant?product_id='.$pid);
     }
 }
