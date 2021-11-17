@@ -21,20 +21,20 @@ Route::get('/admin/product/variant', 'Admin\ProductController@variant', 'admin|m
 Route::get('/admin/product/create', 'Admin\ProductController@create', 'admin|manager');
 Route::post('/admin/product/create', 'Admin\ProductController@create', 'admin|manager');
 
-Route::get('/admin/product/variant/create', 'Admin\ProductController@variantCreate', 'admin|manager');
-Route::post('/admin/product/variant/create', 'Admin\ProductController@variantCreate', 'admin|manager');
+Route::get('/admin/product/variant/create/{pid}', 'Admin\ProductController@variantCreate', 'admin|manager');
+Route::post('/admin/product/variant/create/{pid}', 'Admin\ProductController@variantCreate', 'admin|manager');
 
 Route::get('/admin/product/update/{id}', 'Admin\ProductController@update', 'admin|manager');
 Route::post('/admin/product/update/{id}', 'Admin\ProductController@update', 'admin|manager');
 
-Route::get('/admin/product/configuration', 'Admin\ProductController@configuration', 'admin|manager');
-Route::post('/admin/product/configuration', 'Admin\ProductController@configuration', 'admin|manager');
+Route::get('/admin/product/configuration/{pid}', 'Admin\ProductController@configuration', 'admin|manager');
+Route::post('/admin/product/configuration/{pid}', 'Admin\ProductController@configuration', 'admin|manager');
 
-Route::get('/admin/product/variant/update', 'Admin\ProductController@variantUpdate', 'admin|manager');
-Route::post('/admin/product/variant/update', 'Admin\ProductController@variantUpdate', 'admin|manager');
+Route::get('/admin/product/variant/update/{vid}/{pid}', 'Admin\ProductController@variantUpdate', 'admin|manager');
+Route::post('/admin/product/variant/update/{vid}/{pid}', 'Admin\ProductController@variantUpdate', 'admin|manager');
 
 Route::get('/admin/product/delete/{id}', 'Admin\ProductController@delete', 'admin|manager');
-Route::get('/admin/product/variant/delete', 'Admin\ProductController@variantDelete', 'admin|manager');
+Route::get('/admin/product/variant/delete/{vid}/{pid}', 'Admin\ProductController@variantDelete', 'admin|manager');
 
 // Auth
 Route::auth();

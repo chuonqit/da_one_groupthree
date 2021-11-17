@@ -34,7 +34,7 @@
             <span class="errors">{{ $errors['product_variant_discount'][0] ?? '' }}</span>
         </p>
         <p>
-            <button type="submit">Update</button>
+            <button type="submit">Create</button>
         </p>
     </form>
 <?php endsection() ?>
