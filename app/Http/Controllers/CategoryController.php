@@ -2,15 +2,17 @@
 
 namespace app\Http\Controllers;
 
+use app\Http\Controller;
 use app\Categories;
 use app\Services\Request;
 
-class CategoryController
+class CategoryController extends Controller
 {
     protected Categories $categories;
 
     public function __construct()
     {
+        $this->isMaintenance();
         $this->categories = new Categories();
     }
 

@@ -14,6 +14,10 @@ Route::get('/{cate}/{brand}-{slug}', 'ProductController@details'); // trang chi 
 // Admin
 Route::get('/admin', 'Admin\DashboardController@index', 'admin|manager');
 
+// Admin Options
+Route::get('/admin/options', 'Admin\OptionController@index', 'admin');
+Route::post('/admin/options', 'Admin\OptionController@index', 'admin');
+
 // Admin product
 Route::get('/admin/product', 'Admin\ProductController@index', 'admin|manager');
 Route::get('/admin/product/variant', 'Admin\ProductController@variant', 'admin|manager');

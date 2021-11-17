@@ -112,3 +112,8 @@ function getMenuClient() {
     global $app;
     return $app->option->getMenuClient();
 }
+
+function getOptions() {
+    global $app;
+    return $app->option->getOptions();
+}

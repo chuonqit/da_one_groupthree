@@ -12,6 +12,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
+        $this->isMaintenance();
         $this->products = new Products();
     }
 

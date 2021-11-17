@@ -14,4 +14,13 @@ class Controller
             redirect('account.login');
         }
     }
+
+    public function isMaintenance() {
+        if (!empty(getOptions())) {
+            if (getOptions()['is_maintenance'] == 1) {
+                view('maintenance');
+                die;
+            }
+        }
+    }
 }

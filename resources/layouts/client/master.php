@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= empty(register('title')) ? APP_NAME : register('title') ?></title>
+    <title><?= empty(register('title')) ? (getOptions()['app_name'] ?? APP_NAME) : register('title') ?></title>
     <link rel="stylesheet" href="<?= asset('css/styles.css') ?>">
     <?= register('styles'); ?>
 </head>

@@ -16,6 +16,9 @@
     <li><a href="<?= route() ?>">Shop</a></li>
     <li><a href="<?= route('admin') ?>">Dashboard</a></li>
     <li><a href="<?= route('admin.product') ?>">San pham</a></li>
+    @if(auth['role'] == 'admin')
+    <li><a href="<?= route('admin.options') ?>">Cau hinh trang web</a></li>
+    @endif
     <li>
         @auth 
             Hello, {{ auth['first_name'] }} <a href="<?= route('account.logout') ?>">Logout</a>

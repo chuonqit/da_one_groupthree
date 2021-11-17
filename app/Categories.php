@@ -52,9 +52,4 @@ class Categories
         } 
         return "Danh mục";
     }
-
-    function getMenuData() 
-    {
-        return DB::table('categories')->select('*')->where('is_menu', '=', 1)->orderBy('category_index')->execute()->get();
-    }
 }
