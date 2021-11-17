@@ -97,7 +97,7 @@
 
 </head>
 <body>
-<a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwils5--7LDyAhXZb30KHQNPCmkQFnoECAwQAQ&url=https%3A%2F%2Fwww.ftcab.com%2F&usg=AOvVaw3v44T5yZdpdgVq0agYf0eg" target="_blank">
+<a href="<?= route() ?>" target="_blank">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-12 mt-5 mb-5">
