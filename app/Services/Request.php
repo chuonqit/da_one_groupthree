@@ -57,14 +57,14 @@ class Request extends Validation
         {
             foreach ($_GET as $key => $value)
             {
-                $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS); // tìm kiếm giá trị của input và gán vào mảng theo key
+                $body[$key] = $value; // tìm kiếm giá trị của input và gán vào mảng theo key
             }
         }
         if ($this->method() === 'POST')
         {
             foreach ($_POST as $key => $value)
             {
-                $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS); // tìm kiếm giá trị của input và gán vào mảng theo key
+                $body[$key] = $value; // tìm kiếm giá trị của input và gán vào mảng theo key
             }
         }
         return $body;

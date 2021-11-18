@@ -36,6 +36,7 @@ class ProductController
         if ($request->post()) {
             $input = $request->body();
             $image = $request->file('product_image');
+            $input['product_gifts'] = implode(',', $input['product_gifts']);
             $validate = $request->validate([
                 'product_name' => 'required',
                 'product_slug' => 'required',
@@ -92,6 +93,7 @@ class ProductController
         if ($request->post()) {
             $input = $request->body();
             $image = $request->file('product_image');
+            $input['product_gifts'] = implode(',', $input['product_gifts']);
             $validate = $request->validate([
                 'product_name' => 'required',
                 'product_slug' => 'required',

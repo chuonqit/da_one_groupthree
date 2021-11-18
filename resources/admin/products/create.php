@@ -62,11 +62,10 @@
         </p>
         <p>
             <label>product_gifts</label>
-            <select id="js_product_gifts" multiple>
+            <select name="product_gifts[]" multiple>
                 <option value="1">1</option>
                 <option value="2">2</option>
             </select>
-            <input type="hidden" name="product_gifts" id="js_product_gifts_value">
         </p>
         <p>
             <label for="product_hot">product_hot</label>
@@ -93,21 +92,4 @@
             <button type="submit">Create</button>
         </p>
     </form>
-<?php endsection() ?>
-
-<?php section('scripts') ?>
-    <script>
-        var select_gifts = document.getElementById("js_product_gifts");
-        select_gifts.addEventListener("change", function(e) {
-            const options = e.target.options;
-            const selectedValues = [];
-
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].selected) {
-                    selectedValues.push(options[i].value);
-                }
-            }
-            document.getElementById("js_product_gifts_value").value = selectedValues;
-        });
-    </script>
 <?php endsection() ?>
