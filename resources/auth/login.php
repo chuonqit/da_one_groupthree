@@ -32,7 +32,7 @@
             <span class="errors">{{ $errors['password'][0] ?? '' }}</span>
         </p>
         <p>
-            <a href="<?= route('account.forgot-password') ?>">Forgot password?</a>
+            <a href="<?= route('account.password.reset') ?>">Forgot password?</a>
         </p>
         <p>
             <button type="submit">Login</button>

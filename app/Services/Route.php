@@ -35,8 +35,8 @@ class Route
 
         Route::get('/account/logout', 'Auth\AuthController@logout');
 
-        Route::get('/account/forgot-password', 'Auth\ResetController@forgotPassword');
-        Route::post('/account/forgot-password', 'Auth\ResetController@forgotPassword');
+        Route::get('/account/password/reset', 'Auth\ResetController@forgotPassword');
+        Route::post('/account/password/reset', 'Auth\ResetController@forgotPassword');
 
         Route::get('/account/password/reset/{token}', 'Auth\ResetController@resetPassword');
         Route::post('/account/password/reset/{token}', 'Auth\ResetController@resetPassword');
@@ -68,7 +68,8 @@ class Route
         foreach (self::$routes as $route) {
             if ($route['method'] == $method) { // kiểm tra xem method trong danh sách có bằng method trang hiện tại không
                 $reg = '/^' . $route['path'] . '$/';
-                if (preg_match($reg, $path, $params)) { // kiểm tra xem path có params không
+                if (preg_match($reg, $path, $params)) { // kiểm tra xem có đúng path không
+                    print_r($params);
                     array_shift($params); // xoá phần tử đầu mảng params
                     $params[] = new Request();
                     $this->call_action_route($route['callback'], $params, $route['role']);
